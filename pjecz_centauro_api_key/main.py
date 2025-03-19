@@ -6,6 +6,7 @@ from fastapi import FastAPI
 from fastapi_pagination import add_pagination
 
 from .routers.ordenes import ordenes
+from .routers.respuestas_firmas import respuestas_firmas
 from .routers.usuarios import usuarios
 
 app = FastAPI(
@@ -15,6 +16,7 @@ app = FastAPI(
 )
 
 app.include_router(ordenes)
+app.include_router(respuestas_firmas)
 app.include_router(usuarios)
 
 # Paginación
