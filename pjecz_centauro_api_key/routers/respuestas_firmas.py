@@ -1,5 +1,5 @@
 """
-Órdenes
+Respuestas-Firmas
 """
 
 from typing import Annotated
@@ -13,12 +13,12 @@ from ..dependencies.fastapi_pagination_custom_page import CustomPage
 from ..dependencies.safe_string import safe_string
 from ..models.ordenes import Orden
 from ..models.respuestas_firmas import RespuestaFirma
-from ..schemas.ordenes import OrdenOut
+from ..schemas.respuestas_firmas import RespuestaFirmaOut
 
-ordenes = APIRouter(prefix="/api/v1/ordenes")
+respuestas_firmas = APIRouter(prefix="/api/v1/respuestas_firmas")
 
 
-@ordenes.get("/", response_model=CustomPage[OrdenOut])
+@respuestas_firmas.get("/", response_model=CustomPage[RespuestaFirmaOut])
 async def paginado(
     current_user: Annotated[UsuarioInDB, Depends(get_current_active_user)],
     database: Annotated[Session, Depends(get_db)],
@@ -29,8 +29,8 @@ async def paginado(
     if current_user.permissions.get("ORDENES", 0) < 1:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Forbidden")
     consulta = (
-        database.query(Orden).
-        join(RespuestaFirma, Orden.id == RespuestaFirma.folio).
+        database.query(RespuestaFirma).
+        join(Orden, Orden.id == RespuestaFirma.orden_id).
         order_by(Orden.id.desc())
     )
     if imputado is not None:

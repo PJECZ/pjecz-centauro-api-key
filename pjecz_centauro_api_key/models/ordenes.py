@@ -3,14 +3,13 @@
 """
 
 from datetime import datetime
-from typing import Optional
+from typing import Optional, List
 
 from sqlalchemy import String
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from ..dependencies.database import Base
 from ..dependencies.universal_mixin import UniversalMixin
-
 
 class Orden(Base, UniversalMixin):
     """Orden"""
@@ -29,6 +28,9 @@ class Orden(Base, UniversalMixin):
     estatus: Mapped[str] = mapped_column(String(30))
     expediente: Mapped[Optional[str]] = mapped_column(String(30))
     imputado: Mapped[Optional[str]] = mapped_column(String(500))
+
+    # Hijo
+    respuestas_firmas: Mapped[List["RespuestaFirma"]] = relationship("RespuestaFirma", back_populates="orden")
 
     def __repr__(self):
         """Representación"""

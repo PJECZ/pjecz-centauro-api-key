@@ -18,4 +18,5 @@ class OrdenOut(BaseModel):
     estatus: str
     expediente: str | None
     imputado: str | None
+    url_acceso: str | None = ""
     model_config = ConfigDict(from_attributes=True)
