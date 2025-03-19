@@ -19,9 +19,9 @@ hashids = Hashids(salt=settings.salt, min_length=8)
 class UniversalMixin:
     """Columnas y métodos comunes a todas las tablas"""
 
-    creado: Mapped[datetime] = mapped_column(default=now())
-    modificado: Mapped[datetime] = mapped_column(default=now(), onupdate=now())
-    estatus: Mapped[str] = mapped_column(CHAR, default="A")
+    # creado: Mapped[datetime] = mapped_column(default=now())
+    # modificado: Mapped[datetime] = mapped_column(default=now(), onupdate=now())
+    # estatus: Mapped[str] = mapped_column(CHAR, default="A")
 
     def encode_id(self):
         """Convertir el ID de entero a cadena"""

@@ -52,18 +52,18 @@ def get_secret(secret_id: str) -> str:
     if PROJECT_ID == "":
         return os.getenv(secret_id.upper(), "")
 
-    # Create the secret manager client
-    client = secretmanager.SecretManagerServiceClient()
-
-    # Build the resource name of the secret version
-    secret = f"{SERVICE_PREFIX}_{secret_id}"
-    name = client.secret_version_path(PROJECT_ID, secret, "latest")
-
-    # Access the secret version
-    response = client.access_secret_version(name=name)
-
-    # Return the decoded payload
-    return response.payload.data.decode("UTF-8")
+    try:
+        # Create the secret manager client
+        client = secretmanager.SecretManagerServiceClient()
+        # Build the resource name of the secret version
+        secret = f"{SERVICE_PREFIX}_{secret_id}"
+        name = client.secret_version_path(PROJECT_ID, secret, "latest")
+        # Access the secret version
+        response = client.access_secret_version(name=name)
+        # Return the decoded payload
+        return response.payload.data.decode("UTF-8")
+    except Exception:
+        return ""
 
 
 class Settings(BaseSettings):
@@ -77,6 +77,17 @@ class Settings(BaseSettings):
     origins: str = get_secret("origins")
     salt: str = get_secret("salt")
     tz: str = "America/Mexico_City"
+
+    user_email: str = get_secret("user_email")
+    user_nombres: str = get_secret("user_nombres")
+    user_apellido_paterno: str = get_secret("user_apellido_paterno")
+    user_apellido_materno: str = get_secret("user_apellido_materno")
+    user_username: str = get_secret("user_username")
+    user_permissions: str = get_secret("user_permissions")
+    user_hashed_password: str = get_secret("user_hashed_password")
+    user_disabled: str = get_secret("user_disabled")
+    user_api_key: str = get_secret("user_api_key")
+    user_api_key_expiracion: str = get_secret("user_api_key_expiracion")
 
     class Config:
         """Load configuration"""
