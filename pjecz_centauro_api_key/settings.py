@@ -62,7 +62,7 @@ from google.cloud import secretmanager
 from pydantic_settings import BaseSettings
 
 PROJECT_ID = os.getenv("PROJECT_ID", "")  # Por defecto esta vacio, esto significa estamos en modo local
-SERVICE_PREFIX = os.getenv("SERVICE_PREFIX", "pjecz_plataforma_web_api_key")
+SERVICE_PREFIX = os.getenv("SERVICE_PREFIX", "pjecz_centauro_api_key")
 
 
 def get_secret(secret_id: str) -> str:
@@ -90,14 +90,13 @@ class Settings(BaseSettings):
     """Settings"""
 
     db_host: str = get_secret("db_host")
-    db_port: int = get_secret("db_port")
+    db_port: int = int(get_secret("db_port"))
     db_name: str = get_secret("db_name")
     db_pass: str = get_secret("db_pass")
     db_user: str = get_secret("db_user")
     origins: str = get_secret("origins")
     salt: str = get_secret("salt")
     tz: str = "America/Mexico_City"
-
     user_email: str = get_secret("user_email")
     user_nombres: str = get_secret("user_nombres")
     user_apellido_paterno: str = get_secret("user_apellido_paterno")
@@ -105,7 +104,7 @@ class Settings(BaseSettings):
     user_username: str = get_secret("user_username")
     user_permissions: str = get_secret("user_permissions")
     user_hashed_password: str = get_secret("user_hashed_password")
-    user_disabled: str = get_secret("user_disabled")
+    user_disabled: int = int(get_secret("user_disabled"))
     user_api_key: str = get_secret("user_api_key")
     user_api_key_expiracion: str = get_secret("user_api_key_expiracion")
 
