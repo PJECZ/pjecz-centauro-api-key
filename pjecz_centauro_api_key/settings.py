@@ -51,46 +51,49 @@ y cree como secretos las siguientes variables de entorno
 
 Y en el archivo app.yaml incluya las siguientes variables de entorno
 
-- PROJECT_ID: justicia-digital-gob-mx
+- PROJECT_ID: pjecz-268521
 - SERVICE_PREFIX: pjecz_centauro_api_key
 """
 
 import os
 from functools import lru_cache
 
-from google.cloud import secretmanager
+import google.auth
+import google.cloud.secretmanager
 from pydantic_settings import BaseSettings
 
-PROJECT_ID = os.getenv("PROJECT_ID", "")  # Por defecto esta vacio, esto significa estamos en modo local
 SERVICE_PREFIX = os.getenv("SERVICE_PREFIX", "pjecz_centauro_api_key")
 
 
-def get_secret(secret_id: str) -> str:
+def get_secret(secret_id: str, default: str = "") -> str:
     """Get secret from google cloud secret manager"""
 
-    # If not in google cloud, return environment variable
-    if PROJECT_ID == "":
-        return os.getenv(secret_id.upper(), "")
+    # Obtener el project id con la libreria de google
+    _, project_id = google.auth.default()
+
+    # Si no se encuentra el project id, se busca en las variables de entorno
+    if project_id is None:
+        return os.getenv(secret_id.upper(), default)
 
     try:
         # Create the secret manager client
-        client = secretmanager.SecretManagerServiceClient()
+        client = google.cloud.secretmanager.SecretManagerServiceClient()
         # Build the resource name of the secret version
         secret = f"{SERVICE_PREFIX}_{secret_id}"
-        name = client.secret_version_path(PROJECT_ID, secret, "latest")
+        name = client.secret_version_path(project_id, secret, "latest")
         # Access the secret version
         response = client.access_secret_version(name=name)
         # Return the decoded payload
         return response.payload.data.decode("UTF-8")
     except Exception:
-        return ""
+        return default
 
 
 class Settings(BaseSettings):
     """Settings"""
 
     db_host: str = get_secret("db_host")
-    db_port: int = int(get_secret("db_port"))
+    db_port: int = get_secret("db_port", "3306")
     db_name: str = get_secret("db_name")
     db_pass: str = get_secret("db_pass")
     db_user: str = get_secret("db_user")
@@ -104,7 +107,7 @@ class Settings(BaseSettings):
     user_username: str = get_secret("user_username")
     user_permissions: str = get_secret("user_permissions")
     user_hashed_password: str = get_secret("user_hashed_password")
-    user_disabled: int = int(get_secret("user_disabled"))
+    user_disabled: int = get_secret("user_disabled", "0")
     user_api_key: str = get_secret("user_api_key")
     user_api_key_expiracion: str = get_secret("user_api_key_expiracion")
 
