@@ -30,7 +30,7 @@ async def paginado(
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Forbidden")
     consulta = (
         database.query(RespuestaFirma).
-        join(Orden, Orden.id == RespuestaFirma.orden_id).
+        join(Orden, Orden.folio == RespuestaFirma.orden_id).
         order_by(Orden.id.desc())
     )
     if imputado is not None:
