@@ -28,6 +28,7 @@ class Orden(Base, UniversalMixin):
     estatus: Mapped[str] = mapped_column(String(30))
     expediente: Mapped[Optional[str]] = mapped_column(String(30))
     imputado: Mapped[Optional[str]] = mapped_column(String(500))
+    folio: Mapped[Optional[int]]
 
     # Hijo
     respuestas_firmas: Mapped[List["RespuestaFirma"]] = relationship("RespuestaFirma", back_populates="orden")
