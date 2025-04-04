@@ -3,7 +3,6 @@ Main
 """
 
 import os
-import uvicorn
 
 
 try:
@@ -13,6 +12,8 @@ except ImportError:
     sys.exit("Error: Could not find 'app' instance in pjecz_centauro_api_key.main")
 
 if __name__ == "__main__":
+    # This block is ONLY executed when you run 'python main.py' directly
+    import uvicorn
     # Listen on all interfaces
     host = "0.0.0.0"
     # Google Cloud Run sets the PORT environment variable
