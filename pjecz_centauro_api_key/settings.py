@@ -16,6 +16,16 @@ con las siguientes variables:
 - DB_USER
 - ORIGINS
 - SALT
+- USER_EMAIL
+- USER_NOMBRES
+- USER_APELLIDO_PATERNO
+- USER_APELLIDO_MATERNO
+- USER_USERNAME
+- USER_PERMISSIONS
+- USER_HASHED_PASSWORD
+- USER_DISABLED
+- USER_API_KEY
+- USER_API_KEY_EXPIRACION
 
 Para producción vaya a Google Secret Manager en
 https://console.cloud.google.com/security/secret-manager
@@ -28,6 +38,16 @@ y cree como secretos las siguientes variables de entorno
 - pjecz_centauro_api_key_db_user
 - pjecz_centauro_api_key_origins
 - pjecz_centauro_api_key_salt
+- pjecz_centauro_api_key_user_email
+- pjecz_centauro_api_key_user_nombres
+- pjecz_centauro_api_key_user_apellido_paterno
+- pjecz_centauro_api_key_user_apellido_materno
+- pjecz_centauro_api_key_user_username
+- pjecz_centauro_api_key_user_permissions
+- pjecz_centauro_api_key_user_hashed_password
+- pjecz_centauro_api_key_user_disabled
+- pjecz_centauro_api_key_user_api_key
+- pjecz_centauro_api_key_user_api_key_expiracion
 
 Y en el archivo app.yaml incluya las siguientes variables de entorno
 
