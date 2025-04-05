@@ -26,6 +26,12 @@ USER_HASHED_PASSWORD=
 USER_DISABLED=0
 USER_API_KEY=
 USER_API_KEY_EXPIRACION=
+
+# Google Cloud Project ID
+PROJECT_ID=
+
+# Google Application Credentials
+GOOGLE_APPLICATION_CREDENTIALS=
 ```
 
 Crear un bash script para cargar el entorno de Python y las variables.
@@ -56,7 +62,9 @@ then
     echo "   DB_NAME: ${DB_NAME}"
     echo "   DB_USER: ${DB_USER}"
     echo "   DB_PASS: ${DB_PASS}"
+    echo "   GOOGLE_APPLICATION_CREDENTIALS: ${GOOGLE_APPLICATION_CREDENTIALS}"
     echo "   MAIN_APP_SERVER: ${MAIN_APP_SERVER}"
+    echo "   PROJECT_ID: ${PROJECT_ID}"
     echo "   ORIGINS: ${ORIGINS}"
     echo "   SALT: ${SALT}"
     echo "   USER_EMAIL: ${USER_EMAIL}"
