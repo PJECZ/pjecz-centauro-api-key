@@ -1,5 +1,7 @@
 """
 CLI Usuarios
+
+- nueva_api_key: Genera una nueva API Key para el usuario
 """
 
 from datetime import datetime, timedelta
