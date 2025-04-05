@@ -1,6 +1,6 @@
 # pjecz-centauro-api-key
 
-Crear un archivo con las siguientes variables de entorno
+Crear un archivo con las siguientes variables de entorno, cambiando el valor de las variables según sea necesario.
 
 ```ini
 # Base de datos MySQL
@@ -11,23 +11,24 @@ DB_USER=
 DB_PASS=
 
 # FastAPI
+MAIN_APP_SERVER=uvicorn
 ORIGINS=http://localhost:3000
 SALT=
 
 # Cuenta para pruebas
-USER_EMAIL=pruebas@servidor.gob.mx
-USER_NOMBRES=Pruebas
-USER_APELLIDO_PATERNO=Pruebas
-USER_APELLIDO_MATERNO=Pruebas
-USER_USERNAME=pruebas
+USER_EMAIL=
+USER_NOMBRES=
+USER_APELLIDO_PATERNO=
+USER_APELLIDO_MATERNO=
+USER_USERNAME=
 USER_PERMISSIONS="ORDENES,USUARIOS"
 USER_HASHED_PASSWORD=
 USER_DISABLED=0
 USER_API_KEY=
-USER_API_KEY_EXPIRACION=2035-03-18
+USER_API_KEY_EXPIRACION=
 ```
 
-Crear un bash script para cargar el entorno de Python y las variables
+Crear un bash script para cargar el entorno de Python y las variables.
 
 ```bash
 # pjecz-centauro-api-key
@@ -55,6 +56,7 @@ then
     echo "   DB_NAME: ${DB_NAME}"
     echo "   DB_USER: ${DB_USER}"
     echo "   DB_PASS: ${DB_PASS}"
+    echo "   MAIN_APP_SERVER: ${MAIN_APP_SERVER}"
     echo "   ORIGINS: ${ORIGINS}"
     echo "   SALT: ${SALT}"
     echo "   USER_EMAIL: ${USER_EMAIL}"
@@ -82,8 +84,8 @@ then
     export PYTHON_KEYRING_BACKEND=keyring.backends.null.Keyring
     echo "   $(poetry --version)"
     echo
-    echo "-- FastAPI 127.0.0.1:8000"
-    alias arrancar="uvicorn --host=127.0.0.1 --port 8000 --reload pjecz_centauro_api_key.main:app"
+    echo "-- Arrancar FastAPI"
+    alias arrancar="python3 main.py"
     echo "   arrancar"
     echo
 fi
