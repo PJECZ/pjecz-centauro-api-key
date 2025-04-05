@@ -5,7 +5,7 @@ Arrancar pjecz_centauro_api_key.main:app
 import os
 import sys
 
-MAIN_APP_SERVER = os.environ.get("MAIN_APP_SERVER", "")   # En Dockerfile esta definido como gunicorn
+MAIN_APP_SERVER = os.environ.get("MAIN_APP_SERVER", "")
 
 try:
     from pjecz_centauro_api_key.main import app
@@ -24,11 +24,11 @@ if __name__ == "__main__":
         # Run the FastAPI app with gunicorn server ASGI for production
         port = int(os.environ.get("PORT", 8080))
         worker_class = os.environ.get("GUNICORN_WORKER_CLASS", "uvicorn.workers.UvicornWorker")
-        workers = int(os.environ.get("GUNICORN_WORKERS", 1))
-        cmd = f"gunicorn pjecz_centauro_api_key.main:app -b 0.0.0.0:{port} -w {workers} -k {worker_class} -t 0"
+        workers = int(os.environ.get("GUNICORN_WORKERS", 2))
+        cmd = f"gunicorn -b 0.0.0.0:{port} -w {workers} -k {worker_class} -t 0 pjecz_centauro_api_key.main:app"
         os.system(cmd)
         sys.exit(0)
     else:
-        # If the server is not recognized, print an error message
+        # If is empty or not recognized, do nothing
         sys.stderr.write(f"Error: El servidor '{MAIN_APP_SERVER}' no es reconocido. Declare MAIN_APP_SERVER con 'uvicorn' o 'gunicorn'\n")
-        sys.exit(1)
+        sys.exit(0)
