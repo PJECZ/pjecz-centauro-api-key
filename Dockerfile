@@ -14,13 +14,13 @@ ENV GUNICORN_WORKERS ${GUNICORN_WORKERS:-1}
 WORKDIR /usr/src/app
 
 # Copy the requirements file into the container
-COPY requirements.txt .
+COPY requirements.txt ./
 
 # Install dependencies including gunicorn
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the rest of the application code into the container
-COPY . .
+COPY . ./
 
 # Expose the port the container will listen on (informational, Cloud Run uses $PORT)
 EXPOSE 8080
