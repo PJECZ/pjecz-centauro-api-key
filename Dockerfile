@@ -32,7 +32,6 @@ EXPOSE 8080
 # Use gunicorn webserver with one worker process and 8 threads
 # For environments with multiple CPU cores, increase the number of workers to be equal to the cores available
 # Timeout is set to 0 to disable the timeouts of the workers to allow Cloud Run to handle instance scaling
-# DISABLED for now, as it is not working with main.py conflicting with the server
 # CMD exec gunicorn \
 #     --bind 0.0.0.0:$PORT \
 #     --workers $GUNICORN_WORKERS \
@@ -40,6 +39,9 @@ EXPOSE 8080
 #     --timeout 0 \
 #     --chdir /usr/src/app \
 #     pjecz_centauro_api_key.main:app
+
+# Run the web service with CMD using brackets
+CMD ["gunicorn", "pjecz_centauro_api_key.main:app", "-b", "0.0.0.0:${PORT}", "-k", "uvicorn.workers.UvicornWorker", "-w", $GUNICORN_WORKERS, "-t", "0"]
 
 # Run main.py
 # DISABLED for now

@@ -22,11 +22,11 @@ if __name__ == "__main__":
         sys.exit(0)
     elif MAIN_APP_SERVER == "gunicorn":
         # Run the FastAPI app with gunicorn server ASGI for production
-        port = int(os.environ.get("PORT", 8080))
-        worker_class = os.environ.get("GUNICORN_WORKER_CLASS", "uvicorn.workers.UvicornWorker")
-        workers = int(os.environ.get("GUNICORN_WORKERS", 1))
-        cmd = f"gunicorn --bind 0.0.0.0:{port} --workers {workers} --threads 8 --timeout 0 -k {worker_class} pjecz_centauro_api_key.main:app"
-        os.system(cmd)
+        # port = int(os.environ.get("PORT", 8080))
+        # worker_class = os.environ.get("GUNICORN_WORKER_CLASS", "uvicorn.workers.UvicornWorker")
+        # workers = int(os.environ.get("GUNICORN_WORKERS", 1))
+        # cmd = f"gunicorn pjecz_centauro_api_key.main:app --bind 0.0.0.0:{port} --workers {workers} --timeout 0 -k {worker_class}"
+        # os.system(cmd)
         sys.exit(0)
     else:
         # If the server is not recognized, print an error message
