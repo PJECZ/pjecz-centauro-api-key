@@ -41,8 +41,7 @@ EXPOSE 8080
 #     pjecz_centauro_api_key.main:app
 
 # Run the web service with CMD using brackets
-CMD ["gunicorn", "pjecz_centauro_api_key.main:app", "-b", "0.0.0.0:${PORT}", "-k", "uvicorn.workers.UvicornWorker", "-w", $GUNICORN_WORKERS, "-t", "0"]
+# CMD ["gunicorn", "pjecz_centauro_api_key.main:app", "-b", "0.0.0.0:${PORT}", "-k", "uvicorn.workers.UvicornWorker", "-w", $GUNICORN_WORKERS, "-t", "0"]
 
 # Run main.py
-# DISABLED for now
-# CMD ["python", "main.py"]
+CMD ["python3", "main.py"]
