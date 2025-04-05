@@ -49,9 +49,8 @@ y cree como secretos las siguientes variables de entorno
 - pjecz_centauro_api_key_user_api_key
 - pjecz_centauro_api_key_user_api_key_expiracion
 
-Y en el archivo app.yaml incluya las siguientes variables de entorno
+E incluya las siguientes variables de entorno
 
-- PROJECT_ID: pjecz-268521
 - SERVICE_PREFIX: pjecz_centauro_api_key
 """
 
