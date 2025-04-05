@@ -10,6 +10,9 @@ ENV PYTHONDONTWRITEBYTECODE 1
 # Start with 1 or 2
 ENV GUNICORN_WORKERS ${GUNICORN_WORKERS:-1}
 
+# Set the server to gunicorn in main.py (default value is uvicorn for local development)
+ENV MAIN_APP_SERVER "gunicorn"
+
 # Set the working directory in the container
 WORKDIR /usr/src/app
 
@@ -29,10 +32,15 @@ EXPOSE 8080
 # Use gunicorn webserver with one worker process and 8 threads
 # For environments with multiple CPU cores, increase the number of workers to be equal to the cores available
 # Timeout is set to 0 to disable the timeouts of the workers to allow Cloud Run to handle instance scaling
-CMD exec gunicorn \
-    --bind 0.0.0.0:$PORT \
-    --workers $GUNICORN_WORKERS \
-    --threads 8 \
-    --timeout 0 \
-    --chdir /usr/src/app \
-    pjecz_centauro_api_key.main:app
+# DISABLED for now, as it is not working with main.py conflicting with the server
+# CMD exec gunicorn \
+#     --bind 0.0.0.0:$PORT \
+#     --workers $GUNICORN_WORKERS \
+#     --threads 8 \
+#     --timeout 0 \
+#     --chdir /usr/src/app \
+#     pjecz_centauro_api_key.main:app
+
+# Run main.py
+# DISABLED for now
+# CMD ["python", "main.py"]
