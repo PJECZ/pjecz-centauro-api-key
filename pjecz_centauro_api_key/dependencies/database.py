@@ -16,24 +16,13 @@ Base = declarative_base()
 
 def get_engine(settings: Annotated[Settings, Depends(get_settings)]) -> Engine:
     """Database engine"""
-
-    # Create engine
-    engine = create_engine(
-        f"mysql+pymysql://{settings.db_user}:{settings.db_pass}@{settings.db_host}:{settings.db_port}/{settings.db_name}"
-    )
-
-    return engine
+    return create_engine(settings.db_url)
 
 
 async def get_db(settings: Annotated[Settings, Depends(get_settings)]) -> Session:
     """Database session"""
-
-    # Create engine
     engine = get_engine(settings)
-
-    # Create session
     session_local = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
     try:
         database = session_local()
         yield database
