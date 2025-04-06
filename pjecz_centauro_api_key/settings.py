@@ -67,25 +67,28 @@ SERVICE_PREFIX = os.getenv("SERVICE_PREFIX", "pjecz_centauro_api_key")
 def get_secret(secret_id: str, default: str = "") -> str:
     """Get secret from google cloud secret manager"""
 
+    # Si secret_id esta definido como variable de entorno, entonces se usa
+    # if secret_id.upper() in os.environ:
+    #     return os.environ[secret_id.upper()]
+
     # Obtener el project id con la libreria de google
     _, project_id = google.auth.default()
+    if project_id:
+        try:
+            # Create the secret manager client
+            client = google.cloud.secretmanager.SecretManagerServiceClient()
+            # Build the resource name of the secret version
+            secret = f"{SERVICE_PREFIX}_{secret_id}"
+            name = client.secret_version_path(project_id, secret, "latest")
+            # Access the secret version
+            response = client.access_secret_version(name=name)
+            # Return the decoded payload
+            return response.payload.data.decode("UTF-8")
+        except Exception:
+            pass
 
-    # Si no se encuentra el project id, se busca en las variables de entorno
-    if project_id is None:
-        return os.getenv(secret_id.upper(), default)
-
-    try:
-        # Create the secret manager client
-        client = google.cloud.secretmanager.SecretManagerServiceClient()
-        # Build the resource name of the secret version
-        secret = f"{SERVICE_PREFIX}_{secret_id}"
-        name = client.secret_version_path(project_id, secret, "latest")
-        # Access the secret version
-        response = client.access_secret_version(name=name)
-        # Return the decoded payload
-        return response.payload.data.decode("UTF-8")
-    except Exception:
-        return default
+    # Si no se encuentra el secreto, entonces se entrega el valor por defecto
+    return default
 
 
 class Settings(BaseSettings):
