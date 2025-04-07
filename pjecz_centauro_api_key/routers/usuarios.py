@@ -14,7 +14,7 @@ usuarios = APIRouter(prefix="/api/v1/usuarios")
 
 
 @usuarios.get("/", response_model=UsuarioOut)
-async def get_usuarios(
+async def paginado_usuarios(
     current_user: Annotated[UsuarioInDB, Depends(get_current_active_user)],
     settings: Annotated[Settings, Depends(get_settings)],
 ):
