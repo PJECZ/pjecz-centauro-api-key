@@ -19,7 +19,7 @@ respuestas_firmas = APIRouter(prefix="/api/v1/respuestas_firmas")
 
 
 @respuestas_firmas.get("/", response_model=CustomPage[RespuestaFirmaOut])
-async def paginado(
+async def paginado_respuestas_firmas(
     current_user: Annotated[UsuarioInDB, Depends(get_current_active_user)],
     database: Annotated[Session, Depends(get_db)],
     imputado: str = None,

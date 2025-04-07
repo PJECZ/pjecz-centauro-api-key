@@ -19,13 +19,12 @@ ordenes = APIRouter(prefix="/api/v1/ordenes")
 
 
 @ordenes.get("/", response_model=CustomPage[OrdenOut])
-async def paginado(
+async def paginado_ordenes_aprehnsion(
     current_user: Annotated[UsuarioInDB, Depends(get_current_active_user)],
     database: Annotated[Session, Depends(get_db)],
     imputado: str = None,
-    tipo: str = None,
 ):
-    """Obtener órdenes"""
+    """Órdenes de Aprehensión"""
     if current_user.permissions.get("ORDENES", 0) < 1:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Forbidden")
     consulta = (
@@ -35,6 +34,5 @@ async def paginado(
     )
     if imputado is not None:
         consulta = consulta.filter(Orden.imputado.contains(imputado))
-    if tipo is not None:
-        consulta = consulta.filter(Orden.tipo == tipo)
+    consulta = consulta.filter(Orden.tipo == "Orden de Aprehensión")
     return paginate(consulta)

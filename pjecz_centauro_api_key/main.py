@@ -16,8 +16,8 @@ app = FastAPI(
 )
 
 app.include_router(ordenes)
-app.include_router(respuestas_firmas)
-app.include_router(usuarios)
+app.include_router(respuestas_firmas, include_in_schema=False)
+app.include_router(usuarios, include_in_schema=False)
 
 # Paginación
 add_pagination(app)
